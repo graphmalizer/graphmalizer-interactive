@@ -26,13 +26,13 @@ sockjs_echo.on('connection', function(conn) {
 
     var input = H()
 
-
     conn.on('data', function(message) {
       try {
         var o = JSON.parse(message)
         console.log("RECV =>", pp.render(o))
         o.dataset = 'interactive'
         input.write(o)
+        input.write({query: 'graph'})
       }
       catch(e)
       {
