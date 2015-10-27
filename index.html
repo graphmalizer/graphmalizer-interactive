@@ -55,8 +55,21 @@
 
         // sockjs.onopen    = function()  {print('[*] open', sockjs.protocol);};
         sockjs.onmessage = function(e) {
-          console.log("MSG", e)
-          print(e.data);
+          var o = JSON.parse(e.data)
+
+          var p = o.request.parameters
+          if(p.query)
+          {
+            // console.log(o.response)
+            o.response[0].nodes.forEach(function(n){
+              console.log("NODE", n.id)
+            })
+            o.response[0].edges.forEach(function(e){
+              console.log("EDGE", e)
+            })
+          }
+          else
+            print(o.response)
         };
         // sockjs.onclose   = function()  {print('[*] close');};
 
