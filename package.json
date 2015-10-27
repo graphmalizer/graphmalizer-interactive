@@ -1,0 +1,11 @@
+{
+  "name": "graphmalizer-interactive",
+  "version": "0.0.1",
+  "dependencies": {
+    "graphmalizer-core": "graphmalizer/graphmalizer-core",
+    "highland": "^2.5.1",
+    "node-static": "0.5.9",
+    "prttty": "^0.9.1",
+    "sockjs": "*"
+  }
+}

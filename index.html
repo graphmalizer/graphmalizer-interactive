@@ -1,0 +1,70 @@
+<!doctype html>
+<html><head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js"></script>
+
+    <style>
+      form input {
+          border: 1px solid;
+          -moz-border-radius: 4px;
+          border-radius: 4px;
+          width: 100%;
+          padding: 0px;
+          margin: 5px;
+          font-family: monospace;
+          height: 30px;
+      }
+      div#graph {
+        width: 98%;
+        height: 600px;
+        margin: 10px;
+        border: 1px solid black;
+        background-color: white;
+      }
+      body {
+          background-color: #F0F0F0;
+          font-family: "Arial";
+      }
+    </style>
+</head><body lang="en">
+
+    <div id="graph">
+    </div>
+
+    <form>
+      <input autocomplete="off" value='{"type":"thing", "id":"x"}'>
+      </input>
+    </form>
+
+    <script>
+        var sockjs_url = '/echo';
+        var sockjs = new SockJS(sockjs_url);
+
+        $('input').focus();
+
+        var div  = $('#graph');
+        var inp  = $('input');
+        var form = $('form');
+
+        var print = function(p) {
+            p = (p === undefined) ? '' : JSON.stringify(p);
+            div.append($("<code>").text(p));
+            div.append($("<br>"));
+            div.scrollTop(div.scrollTop()+10000);
+        };
+
+        // sockjs.onopen    = function()  {print('[*] open', sockjs.protocol);};
+        sockjs.onmessage = function(e) {
+          console.log("MSG", e)
+          print(e.data);
+        };
+        // sockjs.onclose   = function()  {print('[*] close');};
+
+        form.submit(function() {
+            sockjs.send(inp.val());
+            inp.val = ''
+            return false;
+        });
+
+    </script>
+</body></html>
